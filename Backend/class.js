@@ -13,10 +13,7 @@ class User{
         this.disLike = disLike;
         this.matches = matches;
     }
-    //Nedenfor ses en af funktionerne/operationerne, som vores User Classes kan udføre
-    SwipeLeftOrRight(){
 
-    }
 }
 
 // i denne bid code hardcoder vi vores attributer for de to objekter
