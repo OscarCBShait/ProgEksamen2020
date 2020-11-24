@@ -9,8 +9,3 @@ server.listen(port, () => console.log(`Listening on port ${port}...`));
 
 
 const ArrayUser = require("../Backend/class.js");
-
-// GET REQUEST = User // GET/read bruges til at læse ressourcer i vores REST-enviroment. GET request ændrer aldrig på informationen, men henter den blot
-server.get('/class', (req, res) => { // denne skal bruges til User
-    res.send(ArrayUser);
-});
