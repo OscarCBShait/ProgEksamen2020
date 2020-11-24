@@ -19,13 +19,6 @@ class User{
     }
 }
 
-// her har vi intet foretaget os
-class FreeUser extends User{
-    constructor(Name, Birthday, Gender, Interest, Match, Image){
-        super(Name, Birthday, Gender, Interest, Match, Image);
-    }
-}
-
 // i denne bid code hardcoder vi vores attributer for de to objekter
 newuser1 = new PaymentUser('Mads Hansen', 20, 'Male', 'Gaming', 'Mille', 'Image', 459833756980);
 newuser2 = new FreeUser('Mille Larsen', 21, 'Female', 'Networking', 'Mads', 'Image');
