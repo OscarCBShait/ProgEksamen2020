@@ -18,13 +18,7 @@ class User{
 
     }
 }
-// i PaymentUser har vi tilføjet creditcard
-class PaymentUser extends User{ 
-    constructor(Name, Birthday, Gender, Interest, Match, Image, CreditCard){
-        super(Name, Birthday, Gender, Interest, Match, Image);
-        this.CreditCard = CreditCard;
-    }
-}
+
 // her har vi intet foretaget os
 class FreeUser extends User{
     constructor(Name, Birthday, Gender, Interest, Match, Image){
