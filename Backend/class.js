@@ -1,13 +1,17 @@
 // I denne fil foretager vi nedarvning, hvor vi starter med at lave en "super Class". Dernæst nedarver vi attributerne og tilføjer til vores underklasser
 
 class User{
-    constructor(Name, Birthday, Gender, Interest, Match, Image){
-        this.Name = Name;
-        this.Birthday = Birthday;
-        this.Gender = Gender;
-        this.Interest = Interest;
-        this.Match = Match;
-        this.Image = Image;
+    constructor(firstName, lastName, age, gender, username, password, email, like, disLike, matches){
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.gender = gender;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.like = like;
+        this.disLike = disLike;
+        this.matches = matches;
     }
     //Nedenfor ses en af funktionerne/operationerne, som vores User Classes kan udføre
     SwipeLeftOrRight(){
