@@ -17,8 +17,15 @@ class User{
 }
 
 // i denne bid code hardcoder vi vores attributer for de to objekter
-newuser1 = new PaymentUser('Mads Hansen', 20, 'Male', 'Gaming', 'Mille', 'Image', 459833756980);
-newuser2 = new FreeUser('Mille Larsen', 21, 'Female', 'Networking', 'Mads', 'Image');
+newuser1 = new User("Mads", "Larsen", 18, "Hankøn", "Mads18", "hej12345", "mads@larsen.com", ["Mille, Christian, Emilie, Sofie, Lone, Tobias"], ["Henrik, Hans, Mads"], ["Mille, Emilie, Christian, Sofie"])
+newuser2 = new User("Mille", "Hansen", 25, "Hunkøn", "Mads18", "hej12345", "mads@larsen.com", ["Mads, Christian, Emilie, Sofie, Lone, Tobias"], ["Henrik, Hans, Mads"], ["Mads, Emilie, Christian, Sofie"])
+newuser3 = new User("Christian", "Nielsen", 23, "Hankøn", "Mads18", "hej12345", "mads@larsen.com", ["Mille, Christian, Emilie, Sofie, Lone, Tobias"], ["Henrik, Hans, Mads"], ["Mille, Emilie, Christian, Sofie"])
+newuser4 = new User("Emilie", "Mikkelsen", 19, "Hunkøn", "Mads18", "hej12345", "mads@larsen.com", ["Mille, Christian, Emilie, Sofie, Lone, Tobias"], ["Henrik, Hans, Mads"], ["Mille, Emilie, Christian, Sofie"])
+newuser5 = new User("Sofie", "Svendsen", 22, "Hunkøn", "Mads18", "hej12345", "mads@larsen.com", ["Mille, Christian, Emilie, Sofie, Lone, Tobias"], ["Henrik, Hans, Mads"], ["Mille, Emilie, Christian, Sofie"])
+
+
+
+
 
 // vi samler vores objekter i et array for dernæst at kunne eksportere begge objekter
 let ArrayUser = [newuser1, newuser2];
