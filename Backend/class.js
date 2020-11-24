@@ -29,6 +29,6 @@ var Sofie = new User("Sofie", "Svendsen", 22, "Hunkøn", "Mads18", "hej12345", "
 
 // vi samler vores objekter i et array for dernæst at kunne eksportere begge objekter
 let ArrayUser = [Mads, Mille, Christian, Emilie, Sofie];
-console.log(ArrayUser)
+
 // module.exports gør, at vi kan eksportere vores array, og anvende det i andre js.filer
 module.exports = ArrayUser
