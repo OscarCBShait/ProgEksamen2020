@@ -16,7 +16,7 @@ function myFunction() {
     message.innerHTML = "";
     password = document.getElementById("psw").value.length;
     try { 
-      if(password == "")  throw "udfyldes";
+      if(password === "")  throw "udfyldes";
      
       password = Number(password);
       if(password <= 8) throw "være mere end 8 tegn";
@@ -27,19 +27,6 @@ function myFunction() {
     catch(err) {
       message.innerHTML = "Password skal " + err;
     }
-    efternavn = document.getElementById("psw").value.length;
-    try { 
-      if(password == "")  throw "udfyldes";
-     
-      password = Number(password);
-      if(password <= 8) throw "være mere end 8 tegn";
-      
-      if(15 >= password) throw "være mindre end 16 tegn";
-    
-    }
-    catch(err) {
-      message.innerHTML = "Password skal " + err;
-    }
-  }
+}
 
  
