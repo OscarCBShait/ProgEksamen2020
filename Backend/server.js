@@ -17,9 +17,13 @@ var path = require("path");
 //Vi bruger mysql-modulet fra NPM
 var mysql = require("mysql");
 
-
+//Vi gør brug af CORS-modulet
 server.use(cors());
+
+//Vi sætter porten til at være 3000, medmindre der allerede en eksisterer en konfigureret port, som vi kan tilgå
 const port = process.env.PORT || 3000;
+
+//Her tjekker vi om vores server virker --> hvis ja skal vi logge nedenstående og porten "3000"
 server.listen(port, () => console.log(`Listening on port ${port}...`));
 
 
@@ -60,12 +64,12 @@ server.post("/createUserPost", function(req, res) {
     var email2 = req.body.email;
     var password2 = req.body.password;
     var brugernavn = req.body.Brugernavn;
-
+    var alder = req.body.Alder;
 
     //Vi konstruerer det array, som skal indsættes i vores mysql-database
-    var post = {username: brugernavn, password: password2, email: email2};
+    var post = {username: brugernavn, password: password2, email: email2, age: alder};
 
-    if(email2 != "" && password2 != "" && brugernavn != "") {
+    if(email2 != "" && password2 != "" && brugernavn != "" && alder != "") {
         connection.query("INSERT INTO sys.users SET ?", post, function (error, results, fields) {
             if (error) throw error;
             res.redirect("/hovedside")
@@ -79,6 +83,8 @@ server.post("/createUserPost", function(req, res) {
 
 //Login routes
 server.get("/loginside", function(req, res) {
+
+    //Hvis vi er logget in skal vi redirectes til hovedsiden hver gang vi forsøger at tilgå loginsiden
     if(req.session.loggedin == true) {
         res.redirect("/hovedside");
     }
