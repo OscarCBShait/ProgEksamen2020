@@ -13,7 +13,6 @@ class User{
         this.disLike = disLike;
         this.matches = matches;
     }
-
 }
 
 // i denne bid code hardcoder vi vores attributer for de to objekter
