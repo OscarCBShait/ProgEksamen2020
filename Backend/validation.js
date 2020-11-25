@@ -12,7 +12,7 @@ password.addEventListener("onkeyup", myFunction);
 
 function myFunction() {
     var message, password;
-    message = document.getElementById("pw");
+    message = document.getElementById("psw");
     message.innerHTML = "";
     password = document.getElementById("psw").value.length;
     try { 
