@@ -6,20 +6,21 @@
     <title>Logindside</title>
 </head>
 <body>
+    <form action="/loginUser" method="POST">
     <h1>Log ind</h1>
     <p>Indtast brugernavn og adgangskode for at logge ind</p>
     <hr>
 
     <label ><b>Brugernavn</b></label>
-    <input type="password" placeholder="Indtast brugernavn"  required>
+    <input type="text" name="username" placeholder="Indtast brugernavn"  required>
 
     <label ><b>Angiv adgangskode</b></label>
-    <input type="password" placeholder="Indtast adgangskode"  required>
+    <input type="password" name="password" placeholder="Indtast adgangskode"  required>
  
     
         
         <div >
-            <a href="./hovedside.html"> <button type="button" > Log ind her </button> </a>
+            <button type="submit" > Log ind her </button> 
           
       </div>
   </div>
