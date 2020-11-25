@@ -7,26 +7,4 @@ const brugernavn = document.getElementById('brugernavn')
 const køn = document.getElementById('køn')
 
   
-
-password.addEventListener("onkeyup", myFunction);
-
-function myFunction() {
-    var message, password;
-    message = document.getElementById("pw");
-    message.innerHTML = "";
-    password = document.getElementById("psw").value.length;
-    try { 
-      if(password === "")  throw "udfyldes";
-     
-      password = Number(password);
-      if(password >= 8) throw "være mere end 8 tegn";
-      
-      if(15 >= password) throw "være mindre end 16 tegn";
-    
-    }
-    catch(err) {
-      message.innerHTML = "Password skal " + err;
-    }
-}
-
  
