@@ -19,7 +19,7 @@ function myFunction() {
       if(password === "")  throw "udfyldes";
      
       password = Number(password);
-      if(password <= 8) throw "være mere end 8 tegn";
+      if(password >= 8) throw "være mere end 8 tegn";
       
       if(15 >= password) throw "være mindre end 16 tegn";
     
