@@ -1,17 +1,35 @@
+//Vi anvender express-pakken fra NPM
 const express = require("express");
+//Vi anvender cors-pakken fra NPM
 const cors = require("cors");
+//Her anvender vi express application og putter den ind i vores "server"-variable
 const server = express();
+
+//Vi anvender express-session-modulet fra NPM
 var session = require("express-session");
+
+//Vi anvender body-parser pakken fr NPM. Body-paser er en middleware, som læser JSON, råtekst og URL
 var bodyParser = require("body-parser");
+
+//Vi anvender path-modulet fra NPM
 var path = require("path");
+
+//Vi bruger mysql-modulet fra NPM
 var mysql = require("mysql");
 
+
+server.use(cors());
+const port = process.env.PORT || 3000;
+server.listen(port, () => console.log(`Listening on port ${port}...`));
+
+
+
+//Setting up connection to mysql
 var connection = mysql.createConnection({
     host : 'localhost',
     user : 'root',
     password : 'rootroot',
     database : 'sys', 
-    insecureAuth : true
 });
 
 //Checking if mysql connection is working
@@ -21,25 +39,30 @@ connection.connect((err) => {
     }
     console.log('Connected to db');
 })
-
+//Vi definerer her, at vi skal bruge session-modulet til at håndtere vores user-session
 server.use(session({
     secret: 'secret',
     resave: true,
     saveUninitialized: true
 }));
 
+//Her sikrer vi os, at vi parser urlencoded bodies. Vi transformerer urlencoded requests og sørger for, at vi kan læse alle former for værdier i stedet for kun strings
 server.use(bodyParser.urlencoded({extended:true}));
+
+//Her sikrer vi os, at vi kun parser JSON. Vi transformerer JSON input til JS-variable
 server.use(bodyParser.json());
 
 //Register routes
 server.get("/", function(req, res) {
-    res.sendFile(path.join(__dirname + '../../Frontend/frontend.html'));
+    res.sendFile(path.join(__dirname + '../../Frontend/createUser.html'));
 });
 server.post("/createUserPost", function(req, res) {
     var email2 = req.body.email;
     var password2 = req.body.password;
     var brugernavn = req.body.Brugernavn;
 
+
+    //Vi konstruerer det array, som skal indsættes i vores mysql-database
     var post = {username: brugernavn, password: password2, email: email2};
 
     if(email2 != "" && password2 != "" && brugernavn != "") {
@@ -95,8 +118,3 @@ server.get("/hovedside", function(req, res) {
     }
 });
 
-server.use(cors());
-const port = process.env.PORT || 3000;
-server.listen(port, () => console.log(`Listening on port ${port}...`));
-
-const ArrayUser = require("../Backend/class.js");
