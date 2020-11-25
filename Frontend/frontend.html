@@ -11,30 +11,63 @@
         <p>Udfyld nedenstående kriterier for at oprette en bruger</p>
     
 
-    <label><b>Fornavn</b></label>
-        <input type="text" placeholder="Fornavn" required>
+        <div class="form-control">
+            <label for="email">Email </label>
+            <br>
+            <input id="email" name="email" type="email" placeholder="e.g: 123@cbs.dk"> <p></p>
+        </div>
 
-    <label><b>Efternavn</b></label>
-        <input type="text" placeholder="Efternavn"  required>
+        <div>
+            <label for="password">Password</label>
+            <br>
+            <input id="psw" name="password" type="password" onkeyup="myFunction()"><p id="pw"></p>
+        </div>
 
-    <label><b>Alder</b></label>
-        <input type="number" placeholder="Alder"  required>
+        <div>
+            <label for="fornavn">Fornavn</label>
+            <br>
+            <input id="fn" name="fornavn" type="text" placeholder="e.g: Hans"><p></p>
+           
+        </div>
 
-    <label><b>Køn</b></label>
-        <input type="radio" name="Køn" value= "Hunkøn" required>Hankøn
-        <input type="radio" name="Køn" value= "Hankøn" required>Hunkøn
+        <div>
+            <label for="efternavn">Efternavn</label>
+            <br>
+            <input id="en" name="efternavn" type="text" placeholder="e.g: Hansen"><p></p>
+        </div>
 
-    <label><b>Brugernavn</b></label>
-        <input type="text" placeholder="Angiv brugernavn"  required>
+        <div>
+            <label for="fødselsdag">Fødselsdag</label>
+        <br>
+            <input id="fdag" name="fødselsdag" type="date" placeholder=" e.g: 24/09/2020"><p></p>
+        </div>
 
-    <label><b>Angiv adgangskode</b></label>
-        <input type="password" placeholder="Lav adgangskode"  required>
-    
-    <label ><b>Gentag adgangskode</b></label>
-        <input type="password" placeholder="Gentag adgangskode"required>
+        <div>
+            <label for="cpr">CPR</label>
+            <br>
+            <input id="cpr" name="cpr" type="number" placeholder="e.g: 240920 - 2020"><p></p>
+        </div>
 
-    <label ><b>Email</b></label>
-        <input type="email" placeholder="Email"  required>
+        <div>
+            <label for="køn">Køn</label>
+            <br>
+            <select name="Køn" id="Køn">
+            <option id="køn" name="køn" type="radio" value="Hankøn">Hankøn</option>
+            <option id="køn" name="køn" type="radio" value="Hunkøn">Hunkøn</option>
+            <option id="køn" name="køn" type="radio" value="Other">Other</option>
+        </select>
+        
+        <div>
+            <label for="file">File</label>
+            <br>
+            <input id="file" type="file" onchange="myFileFunction()"><p></p>
+        </div>
+
+        </div>
+<br>
+   <button id="test" type="button" >Submit</button>
+   
+</div>
 
     
   </div>
