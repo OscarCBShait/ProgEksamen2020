@@ -60,7 +60,7 @@ server.post("/createUserPost", function(req, res) {
     var efternavn1 = req.body.efternavn;
     var gender = req.body.Køn;
 
-    //Vi konstruerer det array, som skal indsættes i vores mysql-database
+    //Vi konstruerer det array, som skal indsættes i vores mysql-database (skal defineres med curly brackets)
     var post = {username: brugernavn, password: password2, email: email2, age: alder, firstname: fornavn1, lastname: efternavn1, gender: gender};
 
     if(brugernavn != "" && password2 != "" && email2 != "" && alder != "" && fornavn1 != "" && efternavn1 != "" && gender != "") {
