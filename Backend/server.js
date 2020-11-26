@@ -37,7 +37,8 @@ connection.connect((err) => {
 server.use(session({
     secret: 'secret',
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: true,
+    insecureAuth : true
 }));
 
 //Her sikrer vi os, at vi parser urlencoded bodies. Vi transformerer urlencoded requests og sørger for, at vi kan læse alle former for værdier i stedet for kun strings
@@ -51,18 +52,21 @@ server.get("/", function(req, res) {
     res.sendFile(path.join(__dirname + '../../Frontend/createUser.html')); 
 });
 server.post("/createUserPost", function(req, res) {
-    var email2 = req.body.email;
-    var password2 = req.body.password;
     var brugernavn = req.body.Brugernavn;
+    var password2 = req.body.password;
+    var email2 = req.body.email;
     var alder = req.body.Alder;
+    var fornavn1 = req.body.fornavn;
+    var efternavn1 = req.body.efternavn;
+    var gender = req.body.Køn;
 
     //Vi konstruerer det array, som skal indsættes i vores mysql-database
-    var post = {username: brugernavn, password: password2, email: email2, age: alder};
+    var post = {username: brugernavn, password: password2, email: email2, age: alder, firstname: fornavn1, lastname: efternavn1, gender: gender};
 
     if(email2 != "" && password2 != "" && brugernavn != "" && alder != "") {
         connection.query("INSERT INTO sys.users SET ?", post, function (error, results, fields) {
             if (error) throw error;
-            res.redirect("/hovedside")
+            res.redirect("hovedside");
         });
     } else {
         res.send({ping:'Error: missing information'});
@@ -113,6 +117,19 @@ server.get("/hovedside", function(req, res) {
         res.redirect('/');
     }
 });
+
+//Matches routes
+server.get("/matches.html", function(req, res) {
+    res.sendFile(path.join(__dirname + '../../Frontend/matches.html')); 
+});
+
+//Find matches routes
+server.get("/findMatches.html", function(req, res) {
+    res.sendFile(path.join(__dirname + '../../Frontend/findMatches.html')); 
+});
+
+
+
 
 //Vi gør brug af CORS-modulet
 server.use(cors());
