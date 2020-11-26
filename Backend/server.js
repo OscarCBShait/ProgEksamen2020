@@ -6,7 +6,7 @@ const cors = require("cors");
 const server = express();
 
 //Vi anvender express-session-modulet fra NPM
-var session = require("express-session");
+var session = require("express-session"); // session gemmer information i server-side
 
 //Vi anvender body-parser pakken fr NPM. Body-paser er en middleware, som læser JSON, råtekst og URL
 var bodyParser = require("body-parser");
@@ -118,6 +118,13 @@ server.get("/hovedside", function(req, res) {
     }
 });
 
+//Logut routes fra hovedside til createUser
+server.get("/logout", function(req, res) {
+    // req.session.destroy = destruerer vores session
+    req.session.destroy();
+    res.redirect("/")
+})
+
 //Matches routes
 server.get("/matches.html", function(req, res) {
     res.sendFile(path.join(__dirname + '../../Frontend/matches.html')); 
@@ -126,8 +133,13 @@ server.get("/matches.html", function(req, res) {
 //Find matches routes
 server.get("/findMatches.html", function(req, res) {
     res.sendFile(path.join(__dirname + '../../Frontend/findMatches.html')); 
-});
 
+// her vælger vi hvilken data vi vil hente ud fra nedenstående sql-commands
+/*connection.query('SELECT username, age, gender FROM users', (err,rows, fields ) => {
+    if(!err) 
+    res.send(rows)
+  });*/
+});
 
 
 
