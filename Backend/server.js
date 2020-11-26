@@ -17,16 +17,6 @@ var path = require("path");
 //Vi bruger mysql-modulet fra NPM
 var mysql = require("mysql");
 
-//Vi gør brug af CORS-modulet
-server.use(cors());
-
-//Vi sætter porten til at være 3000, medmindre der allerede en eksisterer en konfigureret port, som vi kan tilgå
-const port = process.env.PORT || 3000;
-
-//Her tjekker vi om vores server virker --> hvis ja skal vi logge nedenstående og porten "3000"
-server.listen(port, () => console.log(`Listening on port ${port}...`));
-
-
 
 //Setting up connection to mysql
 var connection = mysql.createConnection({
@@ -58,7 +48,7 @@ server.use(bodyParser.json());
 
 //Register routes
 server.get("/", function(req, res) {
-    res.sendFile(path.join(__dirname + '../../Frontend/createUser.html'));
+    res.sendFile(path.join(__dirname + '../../Frontend/createUser.html')); 
 });
 server.post("/createUserPost", function(req, res) {
     var email2 = req.body.email;
@@ -124,3 +114,11 @@ server.get("/hovedside", function(req, res) {
     }
 });
 
+//Vi gør brug af CORS-modulet
+server.use(cors());
+
+//Vi sætter porten til at være 3000, medmindre der allerede en eksisterer en konfigureret port, som vi kan tilgå
+const port = process.env.PORT || 3000;
+
+//Her tjekker vi om vores server virker --> hvis ja skal vi logge nedenstående og porten "3000"
+server.listen(port, () => console.log(`Listening on port ${port}...`));
