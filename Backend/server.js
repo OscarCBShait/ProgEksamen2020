@@ -63,10 +63,10 @@ server.post("/createUserPost", function(req, res) {
     //Vi konstruerer det array, som skal indsættes i vores mysql-database
     var post = {username: brugernavn, password: password2, email: email2, age: alder, firstname: fornavn1, lastname: efternavn1, gender: gender};
 
-    if(email2 != "" && password2 != "" && brugernavn != "" && alder != "") {
+    if(brugernavn != "" && password2 != "" && email2 != "" && alder != "" && fornavn1 != "" && efternavn1 != "" && gender != "") {
         connection.query("INSERT INTO sys.users SET ?", post, function (error, results, fields) {
             if (error) throw error;
-            res.redirect("hovedside");
+            res.redirect("/hovedside");
         });
     } else {
         res.send({ping:'Error: missing information'});
@@ -122,7 +122,7 @@ server.get("/hovedside", function(req, res) {
 server.get("/logout", function(req, res) {
     // req.session.destroy = destruerer vores session
     req.session.destroy();
-    res.redirect("/")
+    res.redirect("/");
 })
 
 //Matches routes
