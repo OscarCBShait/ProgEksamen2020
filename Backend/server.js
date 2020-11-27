@@ -65,7 +65,7 @@ server.post("/createUserPost", function(req, res) {
 
     if(brugernavn != "" && password2 != "" && email2 != "" && alder != "" && fornavn1 != "" && efternavn1 != "" && gender != "") {
         connection.query("INSERT INTO sys.users SET ?", post, function (error, results, fields) {
-            if (error) throw error;
+           if (error) throw error;
             res.redirect("/hovedside");
         });
     } else {
@@ -135,11 +135,12 @@ server.get("/findMatches.html", function(req, res) {
     res.sendFile(path.join(__dirname + '../../Frontend/findMatches.html')); 
 
 // her vælger vi hvilken data vi vil hente ud fra nedenstående sql-commands
-/*connection.query('SELECT username, age, gender FROM users', (err,rows, fields ) => {
+/*connection.query('SELECT age FROM users', (err,rows, fields ) => {
     if(!err) 
     res.send(rows)
   });*/
 });
+
 
 
 
@@ -150,4 +151,4 @@ server.use(cors());
 const port = process.env.PORT || 3000;
 
 //Her tjekker vi om vores server virker --> hvis ja skal vi logge nedenstående og porten "3000"
-server.listen(port, () => console.log(`Listening on port ${port}...`));
+server.listen(port, () => console.log(`Listening on port ${port}...`)); 
