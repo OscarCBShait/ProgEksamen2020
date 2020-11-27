@@ -66,7 +66,7 @@ server.post("/createUserPost", function(req, res) {
     if(brugernavn != "" && password2 != "" && email2 != "" && alder != "" && fornavn1 != "" && efternavn1 != "" && gender != "") {
         connection.query("INSERT INTO sys.users SET ?", post, function (error, results, fields) {
            if(error) throw error;
-            res.redirect("/hovedside");
+           res.redirect("/hovedside");
         });
     } else {
         res.send({ping:'Error: missing information'});
@@ -95,7 +95,7 @@ server.post("/loginUser", function(req, res) {
 
             if(results.length > 0) {
                 req.session.loggedin = true;
-                res.redirect("/hovedside")
+                res.redirect("/hovedside");
             } else {
                 res.redirect("/loginside");
                 console.log('Credentials not true');
