@@ -141,6 +141,10 @@ server.get("/findMatches.html", function(req, res) {
   });*/
 });
 
+server.get("/opdaterProfil.html", function(req, res) {
+    res.sendFile(path.join(__dirname + '../../View/opdaterProfil.html')); 
+});
+
 
 
 
