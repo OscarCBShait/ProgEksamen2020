@@ -49,7 +49,7 @@ server.use(bodyParser.json());
 
 //Register routes
 server.get("/", function(req, res) {
-    res.sendFile(path.join(__dirname + '../../Frontend/createUser.html')); 
+    res.sendFile(path.join(__dirname + '../../View/createUser.html')); 
 });
 server.post("/createUserPost", function(req, res) {
     var brugernavn = req.body.Brugernavn;
@@ -82,7 +82,7 @@ server.get("/loginside", function(req, res) {
     if(req.session.loggedin == true) {
         res.redirect("/hovedside");
     }
-    res.sendFile(path.join(__dirname + '../../Frontend/loginside.html'));
+    res.sendFile(path.join(__dirname + '../../View/loginside.html'));
 });
 server.post("/loginUser", function(req, res) {
     
@@ -111,7 +111,7 @@ server.post("/loginUser", function(req, res) {
 
 server.get("/hovedside", function(req, res) {
     if(req.session.loggedin == true) {
-    res.sendFile(path.join(__dirname + '../../Frontend/hovedside.html'));
+    res.sendFile(path.join(__dirname + '../../View/hovedside.html'));
     }
     else {
         res.redirect('/');
@@ -127,12 +127,12 @@ server.get("/logout", function(req, res) {
 
 //Matches routes
 server.get("/matches.html", function(req, res) {
-    res.sendFile(path.join(__dirname + '../../Frontend/matches.html')); 
+    res.sendFile(path.join(__dirname + '../../View/matches.html')); 
 });
 
 //Find matches routes
 server.get("/findMatches.html", function(req, res) {
-    res.sendFile(path.join(__dirname + '../../Frontend/findMatches.html')); 
+    res.sendFile(path.join(__dirname + '../../View/findMatches.html')); 
 
 // her vælger vi hvilken data vi vil hente ud fra nedenstående sql-commands
 /*connection.query('SELECT age FROM users', (err,rows, fields ) => {
