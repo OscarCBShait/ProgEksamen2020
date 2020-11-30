@@ -11,7 +11,7 @@ var session = require("express-session"); // session gemmer information i server
 //Vi anvender body-parser pakken fr NPM. Body-paser er en middleware, som læser JSON, råtekst og URL
 var bodyParser = require("body-parser");
 
-//Vi anvender path-modulet fra NPM
+//Vi anvender path-modulet fra NPM -- dette modul er et effektivt redskab, når man skal arbejde med directories og stier til filer
 var path = require("path");
 
 //Vi bruger mysql-modulet fra NPM
@@ -49,7 +49,7 @@ server.use(bodyParser.json());
 
 //Register routes
 server.get("/", function(req, res) {
-    res.sendFile(path.join(__dirname + '../../View/createUser.html')); 
+    res.sendFile(path.join(__dirname + '../../View/createUser.html')); //__dirname returnerer stien til denne fil og path.join sammensætter de to stier
 });
 server.post("/createUserPost", function(req, res) {
     var brugernavn = req.body.Brugernavn;
@@ -65,7 +65,7 @@ server.post("/createUserPost", function(req, res) {
 
     if(brugernavn != "" && password2 != "" && email2 != "" && alder != "" && fornavn1 != "" && efternavn1 != "" && gender != "") {
         connection.query("INSERT INTO sys.users SET ?", post, function (error, results, fields) {
-           if(error) throw error;
+        if(error) throw error;
            res.redirect("/hovedside");
         });
     } else {
@@ -141,10 +141,61 @@ server.get("/findMatches.html", function(req, res) {
   });*/
 });
 
+// Opdater profil route
 server.get("/opdaterProfil.html", function(req, res) {
     res.sendFile(path.join(__dirname + '../../View/opdaterProfil.html')); 
 });
 
+
+server.post("/updateUser", function(req, res) {
+    var brugernavn = req.body.Brugernavn;
+    var password2 = req.body.password;
+    var email2 = req.body.email;
+    var alder = req.body.Alder;
+    var fornavn1 = req.body.fornavn;
+    var efternavn1 = req.body.efternavn;
+    var gender = req.body.Køn;
+
+    //Vi konstruerer det array, som skal indsættes i vores mysql-database (skal defineres med curly brackets)
+    //var updatePost = {email: email2, age: alder, firstname: fornavn1, lastname: efternavn1, gender: gender};
+
+    if(req.session.loggedin == true)  {
+        connection.query("UPDATE sys.users SET email = ?, age = ?, firstname = ?, lastname = ?, gender = ? WHERE username = ? AND password = ?", [email2, alder, fornavn1, efternavn1, gender, brugernavn, password2], function (error, results, fields) {
+           if(error) throw error;
+           res.redirect("/hovedside");
+        });
+    } else {
+        res.send({ping:'Error: missing information'});
+    }
+
+    
+});
+
+// Forsøg på at slette bruger
+server.get("/deleteUser.html", function(req, res) {
+    res.sendFile(path.join(__dirname + '../../View/deleteUser.html')); 
+});
+
+
+server.post("/deleteUser", function(req, res) {
+    var brugernavn3 = req.body.Brugernavn;
+    var password2 = req.body.password;
+   
+
+    //Vi konstruerer det array, som skal indsættes i vores mysql-database (skal defineres med curly brackets)
+  
+
+    if(req.session.loggedin == true)  {
+        connection.query("DELETE FROM sys.users WHERE username = ? AND password = ?", [brugernavn3, password2], function (error, results, fields) {
+           if(error) throw error;
+           res.redirect("/createUser")
+        });
+    } else {
+        res.send({ping:'Error: missing information'});
+    }
+
+    
+});
 
 
 
