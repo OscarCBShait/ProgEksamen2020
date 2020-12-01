@@ -14,6 +14,7 @@ var bodyParser = require("body-parser");
 //Vi anvender path-modulet fra NPM -- dette modul er et effektivt redskab, når man skal arbejde med directories og stier til filer
 var path = require("path");
 
+
 //Vi bruger mysql-modulet fra NPM
 var mysql = require("mysql");
 
@@ -41,13 +42,11 @@ server.use(session({
     insecureAuth : true
 }));
 
-//Her sikrer vi os, at vi parser urlencoded bodies. Vi transformerer urlencoded requests og sørger for, at vi kan læse alle former for værdier i stedet for kun strings
+//Her registrerer vi vores body-parser middleware så vi kan arbejde med de forms, som vi har oprettet
 server.use(bodyParser.urlencoded({extended:true}));
-
-//Her sikrer vi os, at vi kun parser JSON. Vi transformerer JSON input til JS-variable
 server.use(bodyParser.json());
 
-//Register routes
+//Register routes = altså vores main route
 server.get("/", function(req, res) {
     res.sendFile(path.join(__dirname + '../../View/createUser.html')); //__dirname returnerer stien til denne fil og path.join sammensætter de to stier
 });
@@ -66,7 +65,7 @@ server.post("/createUserPost", function(req, res) {
     if(brugernavn != "" && password2 != "" && email2 != "" && alder != "" && fornavn1 != "" && efternavn1 != "" && gender != "") {
         connection.query("INSERT INTO sys.users SET ?", post, function (error, results, fields) {
         if(error) throw error;
-           res.redirect("/hovedside");
+          return res.redirect("/hovedside");
         });
     } else {
         res.send({ping:'Error: missing information'});
@@ -135,7 +134,7 @@ server.get("/findMatches.html", function(req, res) {
     res.sendFile(path.join(__dirname + '../../View/findMatches.html')); 
 
 // her vælger vi hvilken data vi vil hente ud fra nedenstående sql-commands
-/*connection.query('SELECT age FROM users', (err,rows, fields ) => {
+/*connection.query('SELECT Username AND age FROM users', (err,rows, fields ) => {
     if(!err) 
     res.send(rows)
   });*/
@@ -156,9 +155,6 @@ server.post("/updateUser", function(req, res) {
     var efternavn1 = req.body.efternavn;
     var gender = req.body.Køn;
 
-    //Vi konstruerer det array, som skal indsættes i vores mysql-database (skal defineres med curly brackets)
-    //var updatePost = {email: email2, age: alder, firstname: fornavn1, lastname: efternavn1, gender: gender};
-
     if(req.session.loggedin == true)  {
         connection.query("UPDATE sys.users SET email = ?, age = ?, firstname = ?, lastname = ?, gender = ? WHERE username = ? AND password = ?", [email2, alder, fornavn1, efternavn1, gender, brugernavn, password2], function (error, results, fields) {
            if(error) throw error;
@@ -171,7 +167,7 @@ server.post("/updateUser", function(req, res) {
     
 });
 
-// Forsøg på at slette bruger
+// Forsøg på at slette bruger routes
 server.get("/deleteUser.html", function(req, res) {
     res.sendFile(path.join(__dirname + '../../View/deleteUser.html')); 
 });
@@ -188,7 +184,7 @@ server.post("/deleteUser", function(req, res) {
     if(req.session.loggedin == true)  {
         connection.query("DELETE FROM sys.users WHERE username = ? AND password = ?", [brugernavn3, password2], function (error, results, fields) {
            if(error) throw error;
-           res.redirect("/createUser")
+           res.redirect("/");
         });
     } else {
         res.send({ping:'Error: missing information'});
