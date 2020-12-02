@@ -1,14 +1,16 @@
 //Vi anvender express-pakken fra NPM
 const express = require("express");
+
 //Vi anvender cors-pakken fra NPM
 const cors = require("cors");
+
 //Her anvender vi express application og putter den ind i vores "server"-variable
 const server = express();
 
 //Vi anvender express-session-modulet fra NPM
 var session = require("express-session"); // session gemmer information i server-side
 
-//Vi anvender body-parser pakken fr NPM. Body-paser er en middleware, som læser JSON, råtekst og URL
+//Vi anvender body-parser pakken fr NPM. Body-paser er en middleware, som læser JSON, og kan transformere det indtil den tidligere "datatype"
 var bodyParser = require("body-parser");
 
 //Vi anvender path-modulet fra NPM -- dette modul er et effektivt redskab, når man skal arbejde med directories og stier til filer
@@ -34,6 +36,7 @@ connection.connect((err) => {
     }
     console.log('Connected to db');
 })
+
 //Vi definerer her, at vi skal bruge session-modulet til at håndtere vores user-session
 server.use(session({
     secret: 'secret',
@@ -42,14 +45,19 @@ server.use(session({
     insecureAuth : true
 }));
 
+
 //Her registrerer vi vores body-parser middleware så vi kan arbejde med de forms, som vi har oprettet
 server.use(bodyParser.urlencoded({extended:true}));
+
+// Body-parser sørger for, at vi kan få adgang til data, fordi den tjekker om det er JSON-fil
 server.use(bodyParser.json());
 
 //Register routes = altså vores main route
 server.get("/", function(req, res) {
     res.sendFile(path.join(__dirname + '../../View/createUser.html')); //__dirname returnerer stien til denne fil og path.join sammensætter de to stier
 });
+
+// post anvendes fordi vi ønsker at sende data til en server, der opretter/opdager en ressource
 server.post("/createUserPost", function(req, res) {
     var brugernavn = req.body.Brugernavn;
     var password2 = req.body.password;
@@ -58,20 +66,19 @@ server.post("/createUserPost", function(req, res) {
     var fornavn1 = req.body.fornavn;
     var efternavn1 = req.body.efternavn;
     var gender = req.body.Køn;
+    var bio1 = req.body.Bio;
 
     //Vi konstruerer det array, som skal indsættes i vores mysql-database (skal defineres med curly brackets)
-    var post = {username: brugernavn, password: password2, email: email2, age: alder, firstname: fornavn1, lastname: efternavn1, gender: gender};
+    var post = {username: brugernavn, password: password2, email: email2, age: alder, firstname: fornavn1, lastname: efternavn1, gender: gender, bio: bio1};
 
-    if(brugernavn != "" && password2 != "" && email2 != "" && alder != "" && fornavn1 != "" && efternavn1 != "" && gender != "") {
+    if(brugernavn != "" && password2 != "" && email2 != "" && alder != "" && fornavn1 != "" && efternavn1 != "" && gender != "" && bio1 != "") {
         connection.query("INSERT INTO sys.users SET ?", post, function (error, results, fields) {
         if(error) throw error;
-          return res.redirect("/hovedside");
+         res.redirect("/hovedside");
         });
     } else {
         res.send({ping:'Error: missing information'});
-    }
-
-    
+    }  
 });
 
 //Login routes
@@ -83,6 +90,7 @@ server.get("/loginside", function(req, res) {
     }
     res.sendFile(path.join(__dirname + '../../View/loginside.html'));
 });
+
 server.post("/loginUser", function(req, res) {
     
     var brugernavn = req.body.username;
@@ -98,16 +106,15 @@ server.post("/loginUser", function(req, res) {
             } else {
                 res.redirect("/loginside");
                 console.log('Credentials not true');
-            }
-
-            
+                
+            } 
         });
     } else {
         res.send({ping:'Error: missing information'});
     }
-
 });
 
+// Her sørger vi for, at man ikke kan tilgå "hovedside", hvis man ikke er logget ind
 server.get("/hovedside", function(req, res) {
     if(req.session.loggedin == true) {
     res.sendFile(path.join(__dirname + '../../View/hovedside.html'));
@@ -116,6 +123,47 @@ server.get("/hovedside", function(req, res) {
         res.redirect('/');
     }
 });
+
+// Her sørger vi for, at man ikke kan tilgå "opdaterProfil", hvis man ikke er logget ind
+server.get("/opdaterProfil.html", function(req, res) {
+    if(req.session.loggedin == true) {
+    res.sendFile(path.join(__dirname + '../../View/opdaterProfil.html'));
+    }
+    else {
+        res.redirect('/');
+    }
+});
+
+// Her sørger vi for, at man ikke kan tilgå "matches", hvis man ikke er logget ind
+server.get("/matches.html", function(req, res) {
+    if(req.session.loggedin == true) {
+    res.sendFile(path.join(__dirname + '../../View/matches.html'));
+    }
+    else {
+        res.redirect('/');
+    }
+});
+
+// Her sørger vi for, at man ikke kan tilgå "findMatches", hvis man ikke er logget ind
+server.get("/findMatches.html", function(req, res) {
+    if(req.session.loggedin == true) {
+    res.sendFile(path.join(__dirname + '../../View/findmatches.html'));
+    }
+    else {
+        res.redirect('/');
+    }
+});
+
+// Her sørger vi for, at man ikke kan tilgå "deleteUser", hvis man ikke er logget ind
+server.get("/deleteUser.html", function(req, res) {
+    if(req.session.loggedin == true) {
+    res.sendFile(path.join(__dirname + '../../View/deleteUser.html'));
+    }
+    else {
+        res.redirect('/');
+    }
+});
+
 
 //Logut routes fra hovedside til createUser
 server.get("/logout", function(req, res) {
@@ -132,12 +180,6 @@ server.get("/matches.html", function(req, res) {
 //Find matches routes
 server.get("/findMatches.html", function(req, res) {
     res.sendFile(path.join(__dirname + '../../View/findMatches.html')); 
-
-// her vælger vi hvilken data vi vil hente ud fra nedenstående sql-commands
-/*connection.query('SELECT Username AND age FROM users', (err,rows, fields ) => {
-    if(!err) 
-    res.send(rows)
-  });*/
 });
 
 // Opdater profil route
@@ -145,8 +187,8 @@ server.get("/opdaterProfil.html", function(req, res) {
     res.sendFile(path.join(__dirname + '../../View/opdaterProfil.html')); 
 });
 
-
-server.post("/updateUser", function(req, res) {
+// post anvendes fordi vi ønsker at sende data til en server, der opretter/opdager en ressource
+server.post("/updateUser", function(req, res) { 
     var brugernavn = req.body.Brugernavn;
     var password2 = req.body.password;
     var email2 = req.body.email;
@@ -154,17 +196,17 @@ server.post("/updateUser", function(req, res) {
     var fornavn1 = req.body.fornavn;
     var efternavn1 = req.body.efternavn;
     var gender = req.body.Køn;
+    var bio1 = req.body.Bio;
 
     if(req.session.loggedin == true)  {
-        connection.query("UPDATE sys.users SET email = ?, age = ?, firstname = ?, lastname = ?, gender = ? WHERE username = ? AND password = ?", [email2, alder, fornavn1, efternavn1, gender, brugernavn, password2], function (error, results, fields) {
+        connection.query("UPDATE sys.users SET email = ?, age = ?, firstname = ?, lastname = ?, gender = ?, bio = ? WHERE username = ? AND password = ?", [email2, alder, fornavn1, efternavn1, gender, bio1, brugernavn, password2], function (error, results, fields) {
            if(error) throw error;
            res.redirect("/hovedside");
+
         });
     } else {
         res.send({ping:'Error: missing information'});
-    }
-
-    
+    }  
 });
 
 // Forsøg på at slette bruger routes
@@ -172,25 +214,20 @@ server.get("/deleteUser.html", function(req, res) {
     res.sendFile(path.join(__dirname + '../../View/deleteUser.html')); 
 });
 
-
+// post anvendes fordi vi ønsker at sende data til en server, der opretter/opdager en ressource
 server.post("/deleteUser", function(req, res) {
     var brugernavn3 = req.body.Brugernavn;
     var password2 = req.body.password;
-   
-
-    //Vi konstruerer det array, som skal indsættes i vores mysql-database (skal defineres med curly brackets)
-  
-
-    if(req.session.loggedin == true)  {
+    // Hvis password og brugernavn ikke er tomt skal de køre nedenstående
+    // Vores mysql commands indikerer, at den skal finde hvor username og password matcher i mysql og dernæst efter slette den kolonne
+    if(brugernavn3 != "" && password2 != "" ) {
         connection.query("DELETE FROM sys.users WHERE username = ? AND password = ?", [brugernavn3, password2], function (error, results, fields) {
            if(error) throw error;
-           res.redirect("/");
+          res.redirect("/");
         });
     } else {
-        res.send({ping:'Error: missing information'});
-    }
-
-    
+        res.send({ping:'Indtast de rette oplysninger for at slette bruger'});
+    }    
 });
 
 
@@ -198,7 +235,7 @@ server.post("/deleteUser", function(req, res) {
 //Vi gør brug af CORS-modulet
 server.use(cors());
 
-//Vi sætter porten til at være 3000, medmindre der allerede en eksisterer en konfigureret port, som vi kan tilgå
+//Vi sætter porten til at være 3000, medmindre der allerede eksisterer en konfigureret port, som vi kan tilgå
 const port = process.env.PORT || 3000;
 
 //Her tjekker vi om vores server virker --> hvis ja skal vi logge nedenstående og porten "3000"
