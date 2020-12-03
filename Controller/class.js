@@ -1,6 +1,6 @@
 // I denne fil foretager vi nedarvning, hvor vi starter med at lave en "super Class". Dernæst nedarver vi attributerne og tilføjer til vores underklasser
 
-class User{
+/*class User{
     constructor(firstName, lastName, age, gender, username, password, email, like, disLike, matches){
         this.firstName = firstName;
         this.lastName = lastName;
@@ -26,8 +26,22 @@ var Sofie = new User("Sofie", "Svendsen", 22, "Hunkøn", "Mads18", "hej12345", "
 
 
 
+
 // vi samler vores objekter i et array for dernæst at kunne eksportere begge objekter
-let ArrayUser = [Sofie];
+let ArrayUser = [Sofie];*/
+
+// her er vores class defineret
+class user {
+    constructor(brugernavn, password2, email2, alder, fornavn1, efternavn1, gender, bio1){
+    this.brugernavn = brugernavn;
+    this.password2 = password2;
+    this.email2 = email2;
+    this.alder = alder
+    this.fornavn1 = fornavn1;
+    this.efternavn1 = efternavn1;
+    this.gender = gender;
+    this.bio1 = bio1;
+}}
 
 // module.exports gør, at vi kan eksportere vores array, og anvende det i andre js.filer
-module.exports = ArrayUser
+module.exports = user

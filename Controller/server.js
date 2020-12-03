@@ -16,6 +16,8 @@ var bodyParser = require("body-parser");
 //Vi anvender path-modulet fra NPM -- dette modul er et effektivt redskab, når man skal arbejde med directories og stier til filer
 var path = require("path");
 
+// her anvender vi require til at hente vores class user fra class.js
+var user = require("../Controller/class")
 
 //Vi bruger mysql-modulet fra NPM
 var mysql = require("mysql");
@@ -52,6 +54,7 @@ server.use(bodyParser.urlencoded({extended:true}));
 // Body-parser sørger for, at vi kan få adgang til data, fordi den tjekker om det er JSON-fil
 server.use(bodyParser.json());
 
+
 //Register routes = altså vores main route
 server.get("/", function(req, res) {
     res.sendFile(path.join(__dirname + '../../View/createUser.html')); //__dirname returnerer stien til denne fil og path.join sammensætter de to stier
@@ -59,21 +62,26 @@ server.get("/", function(req, res) {
 
 // post anvendes fordi vi ønsker at sende data til en server, der opretter/opdager en ressource
 server.post("/createUserPost", function(req, res) {
-    var brugernavn = req.body.Brugernavn;
-    var password2 = req.body.password;
-    var email2 = req.body.email;
-    var alder = req.body.Alder;
-    var fornavn1 = req.body.fornavn;
-    var efternavn1 = req.body.efternavn;
-    var gender = req.body.Køn;
-    var bio1 = req.body.Bio;
+    // her initialisere vi vores class
+    let opretBruger = new user(
+    brugernavn = req.body.Brugernavn,
+    password2 = req.body.password,
+    email2 = req.body.email,
+    alder = req.body.Alder,
+    fornavn1 = req.body.fornavn,
+    efternavn1 = req.body.efternavn,
+    gender = req.body.Køn,
+    bio1 = req.body.Bio,
+    );
+  
 
     //Vi konstruerer det array, som skal indsættes i vores mysql-database (skal defineres med curly brackets)
-    var post = {username: brugernavn, password: password2, email: email2, age: alder, firstname: fornavn1, lastname: efternavn1, gender: gender, bio: bio1};
+    opretBruger =  {username: brugernavn, password: password2, email: email2, age: alder, firstname: fornavn1, lastname: efternavn1, gender: gender, bio: bio1};
 
     if(brugernavn != "" && password2 != "" && email2 != "" && alder != "" && fornavn1 != "" && efternavn1 != "" && gender != "" && bio1 != "") {
-        connection.query("INSERT INTO sys.users SET ?", post, function (error, results, fields) {
+        connection.query("INSERT INTO sys.users SET ?", [opretBruger], function (error, results, fields) {
         if(error) throw error;
+        req.session.loggedin = true;
          res.redirect("/hovedside");
         });
     } else {
@@ -135,9 +143,9 @@ server.get("/opdaterProfil.html", function(req, res) {
 });
 
 // Her sørger vi for, at man ikke kan tilgå "matches", hvis man ikke er logget ind
-server.get("/matches.html", function(req, res) {
+server.get("/matches", function(req, res) {
     if(req.session.loggedin == true) {
-    res.sendFile(path.join(__dirname + '../../View/matches.html'));
+    res.sendFile(path.join(__dirname + '../../View/matches.ejs'));
     }
     else {
         res.redirect('/');
@@ -145,9 +153,9 @@ server.get("/matches.html", function(req, res) {
 });
 
 // Her sørger vi for, at man ikke kan tilgå "findMatches", hvis man ikke er logget ind
-server.get("/findMatches.html", function(req, res) {
+server.get("/findMatches", function(req, res) {
     if(req.session.loggedin == true) {
-    res.sendFile(path.join(__dirname + '../../View/findmatches.html'));
+    res.sendFile(path.join(__dirname + '../../View/findMatches.ejs'));
     }
     else {
         res.redirect('/');
@@ -173,14 +181,22 @@ server.get("/logout", function(req, res) {
 })
 
 //Matches routes
-server.get("/matches.html", function(req, res) {
-    res.sendFile(path.join(__dirname + '../../View/matches.html')); 
+server.get("/matches.ejs", function(req, res) {
+    res.sendFile(path.join(__dirname + '../../View/matches.ejs')); 
 });
 
+
+ //res.sendFile(path.join(__dirname + '../../View/findMatches.html'));
 //Find matches routes
-server.get("/findMatches.html", function(req, res) {
-    res.sendFile(path.join(__dirname + '../../View/findMatches.html')); 
-});
+server.get("/findMatches.ejs", function(req, res) {
+    res.sendFile(path.join(__dirname + '../../View/findMatches.ejs')); 
+    });
+
+  
+
+ 
+    
+
 
 // Opdater profil route
 server.get("/opdaterProfil.html", function(req, res) {
