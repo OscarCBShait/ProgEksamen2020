@@ -1,4 +1,4 @@
-//Vi anvender express-pakken fra NPM
+/*//Vi anvender express-pakken fra NPM
 const express = require("express");
 
 //Vi anvender cors-pakken fra NPM
@@ -16,13 +16,14 @@ var bodyParser = require("body-parser");
 //Vi anvender path-modulet fra NPM -- dette modul er et effektivt redskab, når man skal arbejde med directories og stier til filer
 var path = require("path");
 
-// her anvender vi require til at hente vores class user fra class.js
-var user = require("../Controller/class")
+//Vi henter vores EJS-template. Denne bruges til at vores frontend for at vise data fra mysql og js
+var ejs = require('ejs');
+
 
 //Vi bruger mysql-modulet fra NPM
 var mysql = require("mysql");
-
-
+*/
+/*
 //Setting up connection to mysql
 var connection = mysql.createConnection({
     host : 'localhost',
@@ -53,7 +54,10 @@ server.use(bodyParser.urlencoded({extended:true}));
 
 // Body-parser sørger for, at vi kan få adgang til data, fordi den tjekker om det er JSON-fil
 server.use(bodyParser.json());
-
+*/
+/*
+// her anvender vi require til at hente vores class user fra class.js
+var user = require("../Controller/class")
 
 //Register routes = altså vores main route
 server.get("/", function(req, res) {
@@ -120,7 +124,7 @@ server.post("/loginUser", function(req, res) {
     } else {
         res.send({ping:'Error: missing information'});
     }
-});
+});*/
 
 // Her sørger vi for, at man ikke kan tilgå "hovedside", hvis man ikke er logget ind
 server.get("/hovedside", function(req, res) {
@@ -172,13 +176,13 @@ server.get("/deleteUser.html", function(req, res) {
     }
 });
 
-
+/*
 //Logut routes fra hovedside til createUser
 server.get("/logout", function(req, res) {
     // req.session.destroy = destruerer vores session
     req.session.destroy();
     res.redirect("/");
-})
+})*/
 
 //Matches routes
 server.get("/matches.ejs", function(req, res) {
@@ -197,7 +201,7 @@ server.get("/findMatches.ejs", function(req, res) {
  
     
 
-
+/*
 // Opdater profil route
 server.get("/opdaterProfil.html", function(req, res) {
     res.sendFile(path.join(__dirname + '../../View/opdaterProfil.html')); 
@@ -223,12 +227,13 @@ server.post("/updateUser", function(req, res) {
     } else {
         res.send({ping:'Error: missing information'});
     }  
-});
+});*/
 
-// Forsøg på at slette bruger routes
+/*// Forsøg på at slette bruger routes
 server.get("/deleteUser.html", function(req, res) {
     res.sendFile(path.join(__dirname + '../../View/deleteUser.html')); 
 });
+
 
 // post anvendes fordi vi ønsker at sende data til en server, der opretter/opdager en ressource
 server.post("/deleteUser", function(req, res) {
@@ -244,7 +249,7 @@ server.post("/deleteUser", function(req, res) {
     } else {
         res.send({ping:'Indtast de rette oplysninger for at slette bruger'});
     }    
-});
+});*/
 
 
 
