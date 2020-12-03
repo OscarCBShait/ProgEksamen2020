@@ -6,7 +6,7 @@ var user = require("../Controller/class")
 
 // her vælger vi at hente vores db config for at kunne lave mysql commands
 // samtidig skaber vi vores connection
-var config = requrie('../dbConfig.js');
+var config = require('../dbConfig.js');
 var mysqlcon = config.connection;
 
 

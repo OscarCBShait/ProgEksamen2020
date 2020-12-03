@@ -126,6 +126,8 @@ server.post("/loginUser", function(req, res) {
     }
 });*/
 
+
+/*
 // Her sørger vi for, at man ikke kan tilgå "hovedside", hvis man ikke er logget ind
 server.get("/hovedside", function(req, res) {
     if(req.session.loggedin == true) {
@@ -174,7 +176,7 @@ server.get("/deleteUser.html", function(req, res) {
     else {
         res.redirect('/');
     }
-});
+});*/
 
 /*
 //Logut routes fra hovedside til createUser
@@ -184,6 +186,8 @@ server.get("/logout", function(req, res) {
     res.redirect("/");
 })*/
 
+
+/*
 //Matches routes
 server.get("/matches.ejs", function(req, res) {
     res.sendFile(path.join(__dirname + '../../View/matches.ejs')); 
@@ -196,6 +200,7 @@ server.get("/findMatches.ejs", function(req, res) {
     res.sendFile(path.join(__dirname + '../../View/findMatches.ejs')); 
     });
 
+*/
   
 
  
@@ -252,7 +257,7 @@ server.post("/deleteUser", function(req, res) {
 });*/
 
 
-
+/*
 //Vi gør brug af CORS-modulet
 server.use(cors());
 
@@ -261,3 +266,4 @@ const port = process.env.PORT || 3000;
 
 //Her tjekker vi om vores server virker --> hvis ja skal vi logge nedenstående og porten "3000"
 server.listen(port, () => console.log(`Listening on port ${port}...`)); 
+*/

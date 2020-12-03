@@ -25,10 +25,11 @@ exports.login_post = function(req, res) {
 
     if(password2 != "" && brugernavn != "") {
         mysqlcon.query("SELECT * FROM sys.users WHERE username = ? AND password = ?", [brugernavn, password2], function (error, results, fields) {
-            if (error) throw error;
-            if(results.length > 0) {
+          if(results.length > 0) {
+
                 req.session.loggedin = true;
-                res.redirect("/hovedside");
+                req.session.email = req.body.email;
+                res.redirect("/user");
             } else {
                 res.redirect("/loginside");
                 console.log('Credentials not true');       

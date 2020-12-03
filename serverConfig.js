@@ -17,7 +17,7 @@ const cors = require("cors");
 var ejs = require('ejs');
 
 // Dette er et objekt, som henter alle vores endpoints/routes
-var allRoutes = require('./routes/web')
+var allRoutes = require('./routes/endpoints.js')
 
 //Her anvender vi express application og putter den ind i vores "server"-variable
 const server = express();
