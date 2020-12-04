@@ -28,7 +28,6 @@ exports.login_post = function(req, res) {
           if(results.length > 0) {
 
                 req.session.loggedin = true;
-                req.session.email = req.body.email;
                 res.redirect("/hovedside");
             } else {
                 res.redirect("/loginside");
@@ -47,7 +46,7 @@ exports.logout = function(req,res){
 	var loggedin = req.session.loggedin;
 
 	if (email && loggedin) { 
-		req.session.destroy();
+		req.session.destroy(); // req.session.destroy = destruerer vores session
 	}
 	res.redirect('/');
 };
