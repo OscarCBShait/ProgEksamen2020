@@ -38,18 +38,22 @@ exports.userCreate_post =  function(req, res) {
 
     if(brugernavn != "" && password2 != "" && email2 != "" && alder != "" && fornavn1 != "" && efternavn1 != "" && gender != "" && bio1 != "") {
             mysqlcon.query("INSERT INTO sys.users SET ?", [opretBruger], function (error, results) {
-            if(error){ 
-                throw error;
-            } else {
+            if(error) throw error;
             req.session.loggedin = true;
             res.redirect("/hovedside");
-            }
         });
     } else {
         res.send({ping:'Error: missing information'});
-        res.end();
     }  
 };
+
+
+//bliv henvist til hovedsiden
+exports.hovedside_get = function (req, res) {
+    res.sendFile(path.join(__dirname + '../../views/hovedside.html')); //__dirname returnerer stien til denne fil og path.join sammensætter de to stier
+}
+
+
 
 // Forsøg på at slette bruger routes
 // her bruger vi exports til delete user (GET)
@@ -93,11 +97,10 @@ exports.userUpdate_post = function(req, res) {
     var gender = req.body.Køn;
     var bio1 = req.body.Bio;
 
-    if(req.session.loggedin == true)  {
+    if(brugernavn != "" && password2 != "" && email2 != "" && alder != "" && fornavn1 != "" && efternavn1 != "" && gender != "" && bio1 != "")   {
         mysqlcon.query("UPDATE sys.users SET email = ?, age = ?, firstname = ?, lastname = ?, gender = ?, bio = ? WHERE username = ? AND password = ?", [email2, alder, fornavn1, efternavn1, gender, bio1, brugernavn, password2], function (error, results, fields) {
            if(error) throw error;
            res.redirect("/hovedside");
-
         });
     } else {
         res.send({ping:'Error: missing information'});

@@ -29,7 +29,7 @@ exports.login_post = function(req, res) {
 
                 req.session.loggedin = true;
                 req.session.email = req.body.email;
-                res.redirect("/user");
+                res.redirect("/hovedside");
             } else {
                 res.redirect("/loginside");
                 console.log('Credentials not true');       

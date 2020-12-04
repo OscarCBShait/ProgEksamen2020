@@ -14,7 +14,7 @@ var path = require("path");
 const cors = require("cors");
 
 //Vi henter vores EJS-template. Denne bruges til at vores frontend for at vise data fra mysql og js
-var ejs = require('ejs');
+//var ejs = require('ejs');
 
 // Dette er et objekt, som henter alle vores endpoints/routes
 var allRoutes = require('./routes/endpoints.js')
