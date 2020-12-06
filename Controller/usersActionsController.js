@@ -48,13 +48,6 @@ exports.userCreate_post =  function(req, res) {
 };
 
 
-//bliv henvist til hovedsiden
-exports.hovedside_get = function (req, res) {
-    res.sendFile(path.join(__dirname + '../../views/hovedside.html')); //__dirname returnerer stien til denne fil og path.join sammensætter de to stier
-}
-
-
-
 // Forsøg på at slette bruger routes
 // her bruger vi exports til delete user (GET)
 exports.userDelete_get = function(req, res) {

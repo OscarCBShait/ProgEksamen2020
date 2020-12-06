@@ -6,6 +6,10 @@ var config = require('../dbConfig.js');
 var mysqlcon = config.connection;
 
 
+//bliv henvist til hovedsiden
+exports.hovedside_get = function (req, res) {
+    res.sendFile(path.join(__dirname + '../../views/hovedside.html')); //__dirname returnerer stien til denne fil og path.join sammensætter de to stier
+}
 
 //Login routes
 // hvis vi er logget ind - komemr vi videre til hovedside og ellers skal vi logge ind
@@ -42,10 +46,8 @@ exports.login_post = function(req, res) {
 
 //logut exports laves nedenfor
 exports.logout = function(req,res){
-    var email = req.session.email;
 	var loggedin = req.session.loggedin;
-
-	if (email && loggedin) { 
+	if (loggedin) { 
 		req.session.destroy(); // req.session.destroy = destruerer vores session
 	}
 	res.redirect('/');
