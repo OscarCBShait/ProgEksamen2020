@@ -2,7 +2,7 @@
 var path = require("path");
 
 // her anvender vi require til at hente vores class user fra class.js
-var user = require("../Controller/class")
+var user = require("../class")
 
 // her vælger vi at hente vores db config for at kunne lave mysql commands
 // samtidig skaber vi vores connection
@@ -24,7 +24,7 @@ exports.userCreate_get = function(req, res) {
 exports.userCreate_post =  function(req, res) {
     // her initialiserer vi vores class
     let opretBruger = new user(
-    brugernavn = req.body.Brugernavn,
+    brugernavn = req.body.username,
     password2 = req.body.password,
     email2 = req.body.email,
     alder = req.body.Alder,
@@ -35,15 +35,18 @@ exports.userCreate_post =  function(req, res) {
     );
     //Vi konstruerer det array, som skal indsættes i vores mysql-database (skal defineres med curly brackets)
     opretBruger =  {username: brugernavn, password: password2, email: email2, age: alder, firstname: fornavn1, lastname: efternavn1, gender: gender, bio: bio1};
-
+    
+    // vi laver et if-statement for at sikre os at ingen af felterne er tomme, dermed kan vi indsætte vores data ved hjælp af en query
     if(brugernavn != "" && password2 != "" && email2 != "" && alder != "" && fornavn1 != "" && efternavn1 != "" && gender != "" && bio1 != "") {
             mysqlcon.query("INSERT INTO sys.users SET ?", [opretBruger], function (error, results) {
-            if(error) throw error;
-            req.session.loggedin = true;
-            res.redirect("/hovedside");
-        });
+            if(error) { 
+                throw error;
+            }else {
+                req.session.loggedin = true;
+                res.redirect("/hovedside");
+            }});
     } else {
-        res.send({ping:'Error: missing information'});
+        res.send({ping:'Fejl. Mangler information - gå tilbage'});
     }  
 };
 
@@ -57,7 +60,7 @@ exports.userDelete_get = function(req, res) {
 // post anvendes fordi vi ønsker at sende data til en server, der opretter/opdager en ressource
 // her anvendes exports til delete user (POST)
 exports.userDelete_post = function(req, res) {
-    var brugernavn3 = req.body.Brugernavn;
+    var brugernavn3 = req.body.username;
     var password2 = req.body.password;
     // Hvis password og brugernavn ikke er tomt skal de køre nedenstående
     // Vores mysql commands indikerer, at den skal finde hvor username og password matcher i mysql og dernæst efter slette den kolonne
@@ -81,7 +84,7 @@ exports.userUpdate_get = function(req, res) {
 // post anvendes fordi vi ønsker at sende data til en server, der opretter/opdager en ressource
 // her bruger vi exports til opdater user (POST)
 exports.userUpdate_post = function(req, res) { 
-    var brugernavn = req.body.Brugernavn;
+    var brugernavn = req.body.username;
     var password2 = req.body.password;
     var email2 = req.body.email;
     var alder = req.body.Alder;

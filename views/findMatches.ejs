@@ -3,12 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Matches</title>
 </head>
 <body>
         <h2>Find nye matches ved at like eller dislike</h2>
         
         <p>Du kan se andres profiler og vurdere om de er noget for dig!</p>
+        <p>Derudover har du også mulighed for at se dine matches - og er de ikke noget for dig, kan du fjerne dem igen!</p>
+        <br>
+        <a href="/hovedside"> <button type="button"> Vend tilbage til hovedmenu </button> </a>
+
+        <% usersInFile.forEach(function(user) { %>
+
+            <div style= "margin-bottom: 20px;">
+               <p> <b>Brugernavn:</b> <%= user.username %> </p>
+               <p> <b>Alder:</b> <%= user.age %> </p>
+               <p> <b>Fornavn:</b> <%= user.firstname %> </p>
+                <p> <b>Efternavn:</b> <%= user.lastname %> </p>
+                <p> <b>Køn:</b> <%= user.gender %> </p>
+                <p> <b>Lidt om mig:</b> <%= user.bio %> </p>
+                    <div> <b> Uh Matcher I? </b></div>
+                <% if (user.is_a_match == 1) { %>
+                    <br>
+                    <div style="color: red;">JA I GØR!!</div>
+                    <br>
+                    <a href="/removematch/<%= user.id %>/<%= user.firstname %>"><button>Fjern Match!</button></a>
+               <% } else { %>
+                    <br>
+                    <div>Nej, desværre..</div>
+                    <% if (user.have_i_liked_this_user == false) { %>
+                        <br>
+                        <a href="/makematch/<%= user.id %>/<%= user.firstname %>"><button>Like personen!</button></a>
+                    <% } %>
+                <% } %>
+            </div>
+        <% }); %>
 
 </body>
 </html>

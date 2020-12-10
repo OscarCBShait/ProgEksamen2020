@@ -1,3 +1,4 @@
+//Vi anvender path-modulet fra NPM -- dette modul er et effektivt redskab, når man skal arbejde med directories og stier til filer
 var path = require('path');
 
 // her vælger vi at hente vores db config for at kunne lave mysql commands
@@ -24,39 +25,30 @@ exports.login_get = function(req, res) {
 //her laves vores exports POST 
 exports.login_post = function(req, res) {
     
+    // vi anvender req.body som henter vde pågældende informationer fra vores den log ind form, som vi har lavet
     var brugernavn = req.body.username;
     var password2 = req.body.password;
-
+    
+    //Hvis password og brugernavn er udfyldt, skal den eksekvere nedenstående
+    //Nedenstående query tjekker om der findes en bruger med det brugernavn og password i mysql
+    // hvis det passer, skal vi videreføres til hovedsiden
+    // hvis ikke, bliver vi redirected til samme login-side for at prøve igen
     if(password2 != "" && brugernavn != "") {
         mysqlcon.query("SELECT * FROM sys.users WHERE username = ? AND password = ?", [brugernavn, password2], function (error, results, fields) {
           if(results.length > 0) {
-
+                req.session.user = results[0];
                 req.session.loggedin = true;
                 res.redirect("/hovedside");
             } else {
-                res.redirect("/loginside");
-                console.log('Credentials not true');       
+                res.redirect("/loginUser");
+                console.log('Forkert brugernavn eller password');       
             } 
         });
-    } else {
-        res.send({ping:'Error: missing information'});
-    }
-};
+}};
 
 
 //logut exports laves nedenfor
 exports.logout = function(req,res){
-	var loggedin = req.session.loggedin;
-	if (loggedin) { 
-		req.session.destroy(); // req.session.destroy = destruerer vores session
-	}
+	req.session.destroy(); // req.session.destroy = destruerer vores session
 	res.redirect('/');
 };
-
-/*
-//Logut routes fra hovedside til createUser (dette er den tidligere logout, som jeg ønsker at gemme)
-server.get("/logout", function(req, res) {
-    // req.session.destroy = destruerer vores session
-    req.session.destroy();
-    res.redirect("/");
-})*/

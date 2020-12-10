@@ -13,9 +13,6 @@ var path = require("path");
 //Vi anvender cors-pakken fra NPM
 const cors = require("cors");
 
-//Vi henter vores EJS-template. Denne bruges til at vores frontend for at vise data fra mysql og js
-var ejs = require('ejs');
-
 // Dette er et objekt, som henter alle vores endpoints/routes
 var allRoutes = require('./routes/endpoints.js')
 
@@ -23,6 +20,7 @@ var allRoutes = require('./routes/endpoints.js')
 const server = express();
 
 //Vi definerer her, at vi skal bruge session-modulet til at håndtere vores user-session
+// vi opretter hermed en cookie, som sørger for, at vi kan forblive logget ind, selvom vinduet lukkes
 server.use(session({
     secret: 'secret',
     resave: true,
@@ -34,14 +32,10 @@ server.use(session({
 server.use(cors());
 
 //Her registrerer vi vores body-parser middleware så vi kan arbejde med de forms, som vi har oprettet
-server.use(bodyParser.urlencoded({extended:true}));
+server.use(bodyParser.urlencoded({extended:true})); // hjælper med at få de informationer vi indtaster, ind i vores form
 
 // Body-parser sørger for, at vi kan få adgang til data, fordi den tjekker om det er JSON-fil
 server.use(bodyParser.json());
-
-//Express.static er et værktøj vi kan bruge til at læse/render static files såsom billeder, CSS-filer mv. Nodejs pr. defaiult kan ikke læse disse
-//Her vælger vi hvor vi skal serve vores static.files ved hjælp af __dirname og /public
-server.use(express.static(__dirname + '/public'));
 
 // Denne linje kode gør, at vi anvender EJS som vores templating engine
 //Express bruger jade som default template enige - og derfor bruger vi set til at vælge ejs
@@ -55,10 +49,12 @@ const port = process.env.PORT || 3000;
 server.use('/', allRoutes);
 
 //Her tjekker vi om vores server virker --> hvis ja skal vi logge nedenstående og porten "3000"
-server.listen(port, () => console.log(`Listening on port ${port}...`)); 
+server.listen(port, () => console.log(`Server kører på port ${port}...`)); 
 
 //Vi eksporterer vores server, så den kan bruges i andre filer
 module.exports = server;
+
+
 
 
 
