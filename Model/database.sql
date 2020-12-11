@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS matchlist (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 
-Se ligeledes bilag 6, hvor jeg lavet mit ER-diagram
+Se ligeledes bilag 7, hvor jeg lavet mit ER-diagram
 
 
 
